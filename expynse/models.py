@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 TYPES = (
-		('T', 'Transportation'),
-		('F', 'Food and drinks'),
-		('L', 'Leisure'),
-		('H', 'Health'),
-		('O', 'Other'),
-	)
+        ('T', 'Transportation'),
+        ('F', 'Food and drinks'),
+        ('L', 'Leisure'),
+        ('H', 'Health'),
+        ('O', 'Other'),
+    )
 
 CURRENCY_CHOICE = (
         ('E', 'EURO'),
@@ -16,8 +16,8 @@ CURRENCY_CHOICE = (
     )
 
 class Account(models.Model):
-	
-	name = models.CharField(max_length=50, unique=True)
+
+    name = models.CharField(max_length=50, unique=True)
     description = models.TextField()
 
     class Meta:
@@ -30,12 +30,12 @@ class Account(models.Model):
 
 class Income(models.Model):
 
-    amount = models.DecimalField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=1, choices=CURRENCY_CHOICE)
     date = models.DateField()
     description = models.TextField()
     expense_type = models.CharField(max_length=1, choices=TYPES)
-    bank_account = models.ForeignKey(BankAccount)
+    bank_account = models.ForeignKey(Account)
     user =  models.ForeignKey(User)
 
     class Meta:
@@ -48,12 +48,12 @@ class Income(models.Model):
 
 class Expense(models.Model):
 
-    amount = models.DecimalField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=1, choices=CURRENCY_CHOICE)
     date = models.DateField()
     description = models.TextField()
     expense_type = models.CharField(max_length=1, choices=TYPES)
-    bank_account = models.ForeignKey(BankAccount)
+    bank_account = models.ForeignKey(Account)
     user =  models.ForeignKey(User)
 
     class Meta:
